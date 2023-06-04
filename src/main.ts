@@ -37,7 +37,7 @@ let lastAction: THREE.AnimationAction;
 const fbxLoader: FBXLoader = new FBXLoader();
 
 fbxLoader.load(
-  "/models/riffle.fbx",
+  "/models/boss.fbx",
   (object) => {
     object.scale.set(0.01, 0.01, 0.01);
     mixer = new THREE.AnimationMixer(object);
@@ -51,67 +51,69 @@ fbxLoader.load(
 
     scene.add(object);
 
-    //add an animation from another file
-    // fbxLoader.load(
-    //   "models/vanguard@samba.fbx",
-    //   (object) => {
-    //     console.log("loaded samba");
+    // add an animation from another file
+    fbxLoader.load(
+      "/models/boss@breakdance.fbx",
+      (object) => {
+        console.log("loaded breakdance");
 
-    //     const animationAction = mixer.clipAction(
-    //       (object as THREE.Object3D).animations[0]
-    //     );
-    //     animationActions.push(animationAction);
-    //     animationsFolder.add(animations, "samba");
+        const animationAction = mixer.clipAction(
+          (object as THREE.Object3D).animations[0]
+        );
+        animationActions.push(animationAction);
+        animationsFolder.add(animations, "breakdance");
 
-    //     //add an animation from another file
-    //     fbxLoader.load(
-    //       "models/vanguard@bellydance.fbx",
-    //       (object) => {
-    //         console.log("loaded bellydance");
-    //         const animationAction = mixer.clipAction(
-    //           (object as THREE.Object3D).animations[0]
-    //         );
-    //         animationActions.push(animationAction);
-    //         animationsFolder.add(animations, "bellydance");
+        modelReady = true;
 
-    //         //add an animation from another file
-    //         fbxLoader.load(
-    //           "models/vanguard@goofyrunning.fbx",
-    //           (object) => {
-    //             console.log("loaded goofyrunning");
-    //             (object as THREE.Object3D).animations[0].tracks.shift(); //delete the specific track that moves the object forward while running
-    //             //console.dir((object as THREE.Object3D).animations[0])
-    //             const animationAction = mixer.clipAction(
-    //               (object as THREE.Object3D).animations[0]
-    //             );
-    //             animationActions.push(animationAction);
-    //             animationsFolder.add(animations, "goofyrunning");
+        //add an animation from another file
+        // fbxLoader.load(
+        //   "models/vanguard@bellydance.fbx",
+        //   (object) => {
+        //     console.log("loaded bellydance");
+        //     const animationAction = mixer.clipAction(
+        //       (object as THREE.Object3D).animations[0]
+        //     );
+        //     animationActions.push(animationAction);
+        //     animationsFolder.add(animations, "bellydance");
 
-    //             modelReady = true;
-    //           },
-    //           (xhr) => {
-    //             console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-    //           },
-    //           (error) => {
-    //             console.log(error);
-    //           }
-    //         );
-    //       },
-    //       (xhr) => {
-    //         console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-    //       },
-    //       (error) => {
-    //         console.log(error);
-    //       }
-    //     );
-    //   },
-    //   (xhr) => {
-    //     console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //   }
-    // );
+        //     //add an animation from another file
+        //     fbxLoader.load(
+        //       "models/vanguard@goofyrunning.fbx",
+        //       (object) => {
+        //         console.log("loaded goofyrunning");
+        //         (object as THREE.Object3D).animations[0].tracks.shift(); //delete the specific track that moves the object forward while running
+        //         //console.dir((object as THREE.Object3D).animations[0])
+        //         const animationAction = mixer.clipAction(
+        //           (object as THREE.Object3D).animations[0]
+        //         );
+        //         animationActions.push(animationAction);
+        //         animationsFolder.add(animations, "goofyrunning");
+
+        //         modelReady = true;
+        //       },
+        //       (xhr) => {
+        //         console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+        //       },
+        //       (error) => {
+        //         console.log(error);
+        //       }
+        //     );
+        //   },
+        //   (xhr) => {
+        //     console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+        //   },
+        //   (error) => {
+        //     console.log(error);
+        //   }
+        // );
+      },
+      (xhr) => {
+        console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   },
   (xhr) => {
     console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
@@ -136,14 +138,8 @@ const animations = {
   default: function () {
     setAction(animationActions[0]);
   },
-  samba: function () {
+  breakdance: function () {
     setAction(animationActions[1]);
-  },
-  bellydance: function () {
-    setAction(animationActions[2]);
-  },
-  goofyrunning: function () {
-    setAction(animationActions[3]);
   },
 };
 
