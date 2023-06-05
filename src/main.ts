@@ -6,6 +6,24 @@ import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 import Stats from "three/examples/jsm/libs/stats.module.js";
 import { GUI } from "dat.gui";
 
+// Alpine JS
+import Alpine from "alpinejs";
+
+window.Alpine = Alpine;
+
+Alpine.store("state", {
+  dancer: "big-vegas",
+  dance: "default",
+  tab: "dancer",
+  get dancerImage() {
+    return `/models/${this.dancer}/${this.dancer}.png`;
+  },
+  loadDancer: loadDancer,
+});
+
+Alpine.start();
+
+// Three.js code
 const scene = new THREE.Scene();
 scene.add(new THREE.AxesHelper(5));
 
@@ -36,92 +54,55 @@ let activeAction: THREE.AnimationAction;
 let lastAction: THREE.AnimationAction;
 const fbxLoader: FBXLoader = new FBXLoader();
 
-fbxLoader.load(
-  "/models/boss.fbx",
-  (object) => {
-    object.scale.set(0.01, 0.01, 0.01);
-    mixer = new THREE.AnimationMixer(object);
+function loadDancer(dancer: string) {
+  console.log(scene);
+  scene.remove(scene.children[2]);
 
-    const animationAction = mixer.clipAction(
-      (object as THREE.Object3D).animations[0]
-    );
-    animationActions.push(animationAction);
-    animationsFolder.add(animations, "default");
-    activeAction = animationActions[0];
+  fbxLoader.load(
+    `/models/${dancer}/${dancer}.fbx`,
+    (object) => {
+      object.scale.set(0.01, 0.01, 0.01);
+      mixer = new THREE.AnimationMixer(object);
 
-    scene.add(object);
+      const animationAction = mixer.clipAction(
+        (object as THREE.Object3D).animations[0]
+      );
+      animationActions.push(animationAction);
+      animationsFolder.add(animations, "default");
+      activeAction = animationActions[0];
 
-    // add an animation from another file
-    fbxLoader.load(
-      "/models/boss@breakdance.fbx",
-      (object) => {
-        console.log("loaded breakdance");
+      scene.add(object);
 
-        const animationAction = mixer.clipAction(
-          (object as THREE.Object3D).animations[0]
-        );
-        animationActions.push(animationAction);
-        animationsFolder.add(animations, "breakdance");
+      // add an animation from another file
+      fbxLoader.load(
+        `/models/${dancer}/${dancer}@capoeira.fbx`,
+        (object) => {
+          console.log("loaded breakdance");
 
-        modelReady = true;
+          const animationAction = mixer.clipAction(
+            (object as THREE.Object3D).animations[0]
+          );
+          animationActions.push(animationAction);
+          animationsFolder.add(animations, "breakdance");
 
-        //add an animation from another file
-        // fbxLoader.load(
-        //   "models/vanguard@bellydance.fbx",
-        //   (object) => {
-        //     console.log("loaded bellydance");
-        //     const animationAction = mixer.clipAction(
-        //       (object as THREE.Object3D).animations[0]
-        //     );
-        //     animationActions.push(animationAction);
-        //     animationsFolder.add(animations, "bellydance");
-
-        //     //add an animation from another file
-        //     fbxLoader.load(
-        //       "models/vanguard@goofyrunning.fbx",
-        //       (object) => {
-        //         console.log("loaded goofyrunning");
-        //         (object as THREE.Object3D).animations[0].tracks.shift(); //delete the specific track that moves the object forward while running
-        //         //console.dir((object as THREE.Object3D).animations[0])
-        //         const animationAction = mixer.clipAction(
-        //           (object as THREE.Object3D).animations[0]
-        //         );
-        //         animationActions.push(animationAction);
-        //         animationsFolder.add(animations, "goofyrunning");
-
-        //         modelReady = true;
-        //       },
-        //       (xhr) => {
-        //         console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-        //       },
-        //       (error) => {
-        //         console.log(error);
-        //       }
-        //     );
-        //   },
-        //   (xhr) => {
-        //     console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-        //   },
-        //   (error) => {
-        //     console.log(error);
-        //   }
-        // );
-      },
-      (xhr) => {
-        console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  },
-  (xhr) => {
-    console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-  },
-  (error) => {
-    console.log(error);
-  }
-);
+          modelReady = true;
+        },
+        (xhr) => {
+          console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    (xhr) => {
+      console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
 
 window.addEventListener("resize", onWindowResize, false);
 function onWindowResize() {
