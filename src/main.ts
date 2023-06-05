@@ -26,7 +26,7 @@ Alpine.start();
 // Three.js code
 const scene = new THREE.Scene();
 const loader = new THREE.TextureLoader();
-loader.load('giphy.gif' , function(texture)
+loader.load('/vegas.jpeg' , function(texture)
             {
              scene.background = texture;  
             });

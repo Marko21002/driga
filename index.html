@@ -43,7 +43,22 @@
               >Scene</a
             >
           </div>
-          <div
+          
+
+          <div class="w-[450px] h-[600px] border-4 border-indigo-600 bg-emerald-500">
+
+             
+              <audio  class="w-full h-16 bg-gradient-to-r from-white to-emerald rounded-lg p-4 mt-5" controls id="audioPlayer"></audio>
+              <div class="btn-group mt-[150px] ml-[80px]">
+                <button id="prevButton" class="btn">PREV</button>
+                <button id="playButton" class="btn">PLAY</button>
+                <button id="stopButton" class="btn">STOP</button>
+                <button id="nextButton" class="btn">NEXT</button>
+              </div>
+              <script src="/player/app.js"></script>
+              </div>
+            </div>
+          <!-- <div
             x-data="{ dancers: ['big-vegas', 'prisoner'] }"
             class="mt-4 grid grid-cols-3 gap-4"
           >
@@ -56,7 +71,7 @@
                 alt=""
               />
             </template>
-          </div>
+          </div> -->
         </form>
         <form method="dialog" class="modal-backdrop">
           <button>close</button>
