@@ -64,11 +64,13 @@ function loadDancer(dancer: string) {
       object.scale.set(0.01, 0.01, 0.01);
       mixer = new THREE.AnimationMixer(object);
 
-      const animationAction = mixer.clipAction(
-        (object as THREE.Object3D).animations[0]
-      );
-      animationActions.push(animationAction);
-      animationsFolder.add(animations, "default");
+      if (animationActions.length === 0) {
+        const animationAction = mixer.clipAction(
+          (object as THREE.Object3D).animations[0]
+        );
+        animationActions.push(animationAction);
+        animationsFolder.add(animations, "default");
+      }
       activeAction = animationActions[0];
 
       scene.add(object);
@@ -77,13 +79,13 @@ function loadDancer(dancer: string) {
       fbxLoader.load(
         `/models/${dancer}/${dancer}@capoeira.fbx`,
         (object) => {
-          console.log("loaded breakdance");
-
-          const animationAction = mixer.clipAction(
-            (object as THREE.Object3D).animations[0]
-          );
-          animationActions.push(animationAction);
-          animationsFolder.add(animations, "breakdance");
+          if (animationActions.length === 1) {
+            const animationAction = mixer.clipAction(
+              (object as THREE.Object3D).animations[0]
+            );
+            animationActions.push(animationAction);
+            animationsFolder.add(animations, "capoeira");
+          }
 
           modelReady = true;
         },
@@ -119,7 +121,7 @@ const animations = {
   default: function () {
     setAction(animationActions[0]);
   },
-  breakdance: function () {
+  capoeira: function () {
     setAction(animationActions[1]);
   },
 };
