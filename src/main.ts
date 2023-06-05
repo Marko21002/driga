@@ -4,7 +4,6 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 import Stats from "three/examples/jsm/libs/stats.module.js";
-import { GUI } from "dat.gui";
 
 // Alpine JS
 import Alpine from "alpinejs";
@@ -19,6 +18,7 @@ Alpine.store("state", {
     return `/models/${this.dancer}/${this.dancer}.png`;
   },
   loadDancer: loadDancer,
+  startDancing: startDancing,
 });
 
 Alpine.start();
@@ -54,14 +54,18 @@ controls.target.set(0, 1, 0);
 
 let mixer: THREE.AnimationMixer;
 let modelReady = false;
-const animationActions: THREE.AnimationAction[] = [];
+let animationActions: THREE.AnimationAction[] = [];
 let activeAction: THREE.AnimationAction;
 let lastAction: THREE.AnimationAction;
 const fbxLoader: FBXLoader = new FBXLoader();
 
+function startDancing(dance: "default" | "capoeira") {
+  animations[dance]();
+}
+
 function loadDancer(dancer: string) {
-  console.log(scene);
   scene.remove(scene.children[2]);
+  animationActions = [];
 
   fbxLoader.load(
     `/models/${dancer}/${dancer}.fbx`,
@@ -74,7 +78,6 @@ function loadDancer(dancer: string) {
           (object as THREE.Object3D).animations[0]
         );
         animationActions.push(animationAction);
-        animationsFolder.add(animations, "default");
       }
       activeAction = animationActions[0];
 
@@ -89,7 +92,6 @@ function loadDancer(dancer: string) {
               (object as THREE.Object3D).animations[0]
             );
             animationActions.push(animationAction);
-            animationsFolder.add(animations, "capoeira");
           }
 
           modelReady = true;
@@ -142,10 +144,6 @@ const setAction = (toAction: THREE.AnimationAction) => {
     activeAction.play();
   }
 };
-
-const gui = new GUI();
-const animationsFolder = gui.addFolder("Animations");
-animationsFolder.open();
 
 const clock = new THREE.Clock();
 

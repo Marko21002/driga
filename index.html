@@ -15,6 +15,13 @@
       >
         settings
       </button>
+      <select
+        @change="(e) => $store.state.startDancing(e.target.value)"
+        class="select absolute right-8 top-8 w-full max-w-xs"
+      >
+        <option selected value="default">T-Pose</option>
+        <option value="capoeira">Capoeira</option>
+      </select>
       <dialog id="settingsModal" class="modal modal-bottom sm:modal-middle">
         <form method="dialog" class="modal-box">
           <button
