@@ -25,6 +25,11 @@ Alpine.start();
 
 // Three.js code
 const scene = new THREE.Scene();
+const loader = new THREE.TextureLoader();
+loader.load('giphy.gif' , function(texture)
+            {
+             scene.background = texture;  
+            });
 scene.add(new THREE.AxesHelper(5));
 
 const light = new THREE.PointLight();
