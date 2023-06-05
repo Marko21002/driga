@@ -7,62 +7,62 @@
     <title>Driga</title>
   </head>
   <body>
-    <!-- Open the modal using ID.showModal() method -->
-    <button class="btn absolute top-8 left-8" onclick="my_modal_5.showModal()">
-      open modal
-    </button>
-    <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
-      <form method="dialog" class="modal-box bg-opacity-80 backdrop-blur-md">
-        <div class="tabs">
-          Copy code
-<a href="#" class="btn" onclick="my_modal_1.showModal()">music</a>
-
-<dialog id="my_modal_1" class="modal">
-  <form method="dialog" class="modal-box">
-   
-    <div class="modal-action">
-      <!-- if there is a button in form, it will close the modal -->
-
-    <link rel="stylesheet" href="style.css" />
-    <title>Document</title>
-  </head>
-  <body>
-   <!-- <script src="app.js"></script> -->
-    <div class="flex items-center justify-center h-screen">
-
-      <div class="w-[450px] h-[600px] border-4 border-indigo-600">
-         
-          <audio  id="audioPlayer"></audio>
-          <div class="btn-group mt-[150px] ml-[80px]">
-            <button id="prevButton" class="btn">PREV</button>
-            <button id="playButton" class="btn">PLAY</button>
-            <button id="stopButton" class="btn">STOP</button>
-            <button id="nextButton" class="btn">NEXT</button>
+    <div x-data>
+      <!-- Open the modal using ID.showModal() method -->
+      <button
+        class="btn absolute left-8 top-8"
+        onclick="settingsModal.showModal()"
+      >
+        settings
+      </button>
+      <dialog id="settingsModal" class="modal modal-bottom sm:modal-middle">
+        <form method="dialog" class="modal-box">
+          <button
+            for="settingsModal"
+            class="btn-ghost btn-sm btn-circle btn absolute right-2 top-2"
+          >
+            ✕
+          </button>
+          <div class="tabs justify-center">
+            <a
+              @click="$store.state.tab = 'music'"
+              class="tab"
+              x-bind:class="{'tab-active': $store.state.tab === 'music'}"
+              >Music</a
+            >
+            <a
+              @click="$store.state.tab = 'dancer'"
+              class="tab"
+              x-bind:class="{'tab-active': $store.state.tab === 'dancer'}"
+              >Dancer</a
+            >
+            <a
+              @click="$store.state.tab = 'scene'"
+              class="tab"
+              x-bind:class="{'tab-active': $store.state.tab === 'scene'}"
+              >Scene</a
+            >
           </div>
-          <script src="/player/app.js"></script>
+          <div
+            x-data="{ dancers: ['big-vegas', 'prisoner'] }"
+            class="mt-4 grid grid-cols-3 gap-4"
+          >
+            <template x-for="dancer in dancers">
+              <img
+                @click="$store.state.dancer = dancer; $store.state.loadDancer(dancer)"
+                class="cursor-pointer rounded-md transition-all hover:outline hover:outline-2 hover:outline-primary"
+                x-bind:src="`models/${dancer}/${dancer}.png`"
+                x-bind:class="{'outline outline-2 outline-accent': $store.state.dancer === dancer}"
+                alt=""
+              />
+            </template>
           </div>
-        </div>
-       </div>
-    
-    
-       <!-- <script src="app.js"></script> -->
+        </form>
+        <form method="dialog" class="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
     </div>
-  </body>
-</html>
-
-      <button class="btn">Close</button>
-    </div>
-  </form>
-</dialog>
-          <a class="tab tab-active">Dancer</a>
-          <a class="tab">Scene</a>
-        </div>
-        <div class="modal-action">
-          <!-- if there is a button in form, it will close the modal -->
-          <button class="btn">Close</button>
-        </div>
-      </form>
-    </dialog>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
