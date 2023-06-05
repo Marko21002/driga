@@ -3,7 +3,6 @@ import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
-import Stats from "three/examples/jsm/libs/stats.module.js";
 
 // Alpine JS
 import Alpine from "alpinejs";
@@ -26,11 +25,9 @@ Alpine.start();
 // Three.js code
 const scene = new THREE.Scene();
 const loader = new THREE.TextureLoader();
-loader.load('/vegas.jpeg' , function(texture)
-            {
-             scene.background = texture;  
-            });
-scene.add(new THREE.AxesHelper(5));
+loader.load("/vegas.jpeg", function (texture) {
+  scene.background = texture;
+});
 
 const light = new THREE.PointLight();
 light.position.set(2.5, 7.5, 15);
@@ -64,7 +61,7 @@ function startDancing(dance: "default" | "capoeira") {
 }
 
 function loadDancer(dancer: string) {
-  scene.remove(scene.children[2]);
+  scene.remove(scene.children[1]);
   animationActions = [];
 
   fbxLoader.load(
@@ -121,8 +118,8 @@ function onWindowResize() {
   render();
 }
 
-const stats = new Stats();
-document.body.appendChild(stats.dom);
+// const stats = new Stats();
+// document.body.appendChild(stats.dom);
 
 const animations = {
   default: function () {
@@ -155,8 +152,6 @@ function animate() {
   if (modelReady) mixer.update(clock.getDelta());
 
   render();
-
-  stats.update();
 }
 
 function render() {
